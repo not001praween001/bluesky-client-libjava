@@ -1,4 +1,4 @@
-#bluesky-clien-libjava
+#bluesky-client-libjava
 The package provides the connector of Bluesky for java Programers.
 
 Requirements
