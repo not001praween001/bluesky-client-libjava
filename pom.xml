@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="utf-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>bluesky.client</groupId>
+  <artifactId>bluesky-client-libjava</artifactId>
+  <version>0.0.0</version>
+  <packaging>jar</packaging>
+
+  <name>bluesky-client-libjava</name>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <skipExtraTest>true</skipExtraTest>
+  </properties>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.7</source>
+          <target>1.7</target>
+          <debug>true</debug>
+          <debuglevel>lines,vars,source</debuglevel>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+
+        <executions>
+          <execution>
+            <phase>package</phase>
+
+            <goals>
+              <goal>jar</goal>
+            </goals>
+
+            <configuration>
+              <archive>
+                <manifestEntries>
+                  <Built-By>anonymous</Built-By>
+                </manifestEntries>
+              </archive>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+	<groupId>org.apache.maven.plugins</groupId>
+	<artifactId>maven-surefire-plugin</artifactId>
+	<version>2.16</version>
+	<executions>
+	  <execution>
+	    <id>default-test</id>
+	    <phase>test</phase>
+	    <goals>
+	      <goal>test</goal>
+	    </goals>
+	    
+	    <configuration>
+	      <excludedGroups>bluesky.client.test.ExtraTest</excludedGroups>
+	      <skipTests>${skipExtraTest}</skipTests>
+	    </configuration>
+	    
+	    <!--
+	    <configuration>
+	      <excludedGroups>bluesky.client.test.Bluesky_cliTest</excludedGroups>
+	    </configuration>
+	    -->
+	  </execution>
+	  <execution>
+	    <id>extra-test</id>
+	    <phase>test</phase>
+	    <goals>
+	      <goal>test</goal>
+	    </goals>
+	    <configuration>
+	      <groups>bluesky.client.test.ExtraTest</groups>
+	    </configuration>
+	  </execution>
+	</executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>appassembler-maven-plugin</artifactId>
+
+        <executions>
+          <execution>
+            <phase>package</phase>
+
+            <goals>
+              <goal>assemble</goal>
+            </goals>
+
+            <configuration>
+              <repositoryLayout>flat</repositoryLayout>
+              <repositoryName>lib</repositoryName>
+
+              <programs>
+                <program>
+                  <mainClass>bluesky.client.Bluesky_cli</mainClass>
+                  <name>bluesky_cli</name>
+                </program>
+              </programs>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+
+        <executions>
+          <execution>
+            <phase>package</phase>
+
+            <goals>
+              <goal>single</goal>
+            </goals>
+
+            <configuration>
+              <descriptors>
+                <descriptor>src/assemble/distribution.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+
+
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+	<!--
+        <version>4.11</version>
+	-->
+	<version>4.8</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.hamcrest</groupId>
+        <artifactId>hamcrest-core</artifactId>
+        <version>1.3</version>
+        <scope>test</scope>
+    </dependency>
+
+    <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>3.1</version>
+    </dependency>
+    <dependency>
+      <groupId>com.ning</groupId>
+      <artifactId>async-http-client</artifactId>
+      <version>1.9.31</version>
+    </dependency>
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty</artifactId>
+      <version>4.0.0.Alpha8</version>
+    </dependency>
+    <dependency>
+      <groupId> org.apache.cassandra</groupId>
+      <artifactId>cassandra-all</artifactId>
+      <version>0.8.1</version>
+
+      <exclusions>
+	<exclusion> 
+	  <groupId>org.slf4j</groupId>
+	  <!--<artifactId>slf4j-log4j12</artifactId>-->
+	  <artifactId>slf4j-jdk13</artifactId>
+	</exclusion>
+	<!--<exclusion> 
+	  <groupId>org.slf4j</groupId>
+	  <artifactId>slf4j-jdk14</artifactId>
+	</exclusion>-->
+	<exclusion> 
+	  <groupId>log4j</groupId>
+	  <artifactId>log4j</artifactId>
+	</exclusion>
+	<exclusion>
+	  <groupId>org.slf4j</groupId>
+	  <artifactId>slf4j-parent</artifactId>
+	 <!-- <version>1.7.13</version>--> 
+	</exclusion>
+      </exclusions> 
+    </dependency>
+    
+    <dependency>
+      <groupId>com.google.code.gson</groupId>
+      <artifactId>gson</artifactId>
+      <version>2.3.1</version>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.json</groupId>
+      <artifactId>json</artifactId>
+      <version>20151123</version>
+    </dependency>
+
+
+    <!--
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-parent</artifactId>
+      <version>1.7.13</version>
+    </dependency>
+    -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <version>1.6.4</version>
+    </dependency>
+  </dependencies>
+</project>

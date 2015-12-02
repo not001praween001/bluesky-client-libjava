@@ -1,0 +1,1 @@
+mvn -DskipExtraTest=false test
