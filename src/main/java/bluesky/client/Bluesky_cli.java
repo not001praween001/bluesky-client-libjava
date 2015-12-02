@@ -150,7 +150,7 @@ public class Bluesky_cli{
      * login to the system as the public account.
      * @return login result
      */
-    private boolean login(){
+    public boolean login(){
 	boolean ret = false;
 	String param = "username=" + this.username + "&password=" + this.password + "&mode=signin" ;
 	for(int i = 0; i < 3; i++){
@@ -177,7 +177,7 @@ public class Bluesky_cli{
      * logout from the system.
      * @return logout result
      */
-    private boolean logout(){
+    public boolean logout(){
 	boolean ret = false;
 	String param = "username=" + this.username + "&mode=signout" ;
 	for(int i = 0; i < 3; i++){
