@@ -9,6 +9,31 @@
   <packaging>jar</packaging>
 
   <name>bluesky-client-libjava</name>
+  <description>A connector library for Bluesky.</description>
+  <url>https://github.com/Bluesky-CPS/bluesky-client-libjava</url>
+  <licenses>
+    <license>
+      <name>The Apache License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+    </license>
+    <license>
+      <name>ISC License (ISC)</name>
+      <url>https://opensource.org/licenses/ISC</url>
+    </license>
+  </licenses>
+  <developers>
+    <developer>
+      <name>Praween AMONTAMAVUT</name>
+      <email>praween@hykwlab.org</email>
+      <organization>Bluesky-CPS</organization>
+      <organizationUrl>http://www.bluesky-cps.org</organizationUrl>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:git:git@github.com:Bluesky-CPS/bluesky-client-libjava.git</connection>
+    <developerConnection>scm:git:git@github.com:not001praween001/bluesky-client-libjava.git</developerConnection>
+    <url>git@github.com:Bluesky-CPS/bluesky-client-libjava.git</url>
+  </scm>
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
