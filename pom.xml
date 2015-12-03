@@ -3,7 +3,7 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <groupId>bluesky.client</groupId>
+  <groupId>org.bluesky_cps</groupId>
   <artifactId>bluesky-client-libjava</artifactId>
   <version>0.0.0</version>
   <packaging>jar</packaging>
@@ -89,13 +89,13 @@
 	    </goals>
 	    
 	    <configuration>
-	      <excludedGroups>bluesky.client.test.ExtraTest</excludedGroups>
+	      <excludedGroups>org.bluesky_cps.client.test.ExtraTest</excludedGroups>
 	      <skipTests>${skipExtraTest}</skipTests>
 	    </configuration>
 	    
 	    <!--
 	    <configuration>
-	      <excludedGroups>bluesky.client.test.Bluesky_cliTest</excludedGroups>
+	      <excludedGroups>org.bluesky_cps.client.test.Bluesky_cliTest</excludedGroups>
 	    </configuration>
 	    -->
 	  </execution>
@@ -106,7 +106,7 @@
 	      <goal>test</goal>
 	    </goals>
 	    <configuration>
-	      <groups>bluesky.client.test.ExtraTest</groups>
+	      <groups>org.bluesky_cps.client.test.ExtraTest</groups>
 	    </configuration>
 	  </execution>
 	</executions>
@@ -130,7 +130,7 @@
 
               <programs>
                 <program>
-                  <mainClass>bluesky.client.Bluesky_cli</mainClass>
+                  <mainClass>org.bluesky_cps.client.Bluesky_cli</mainClass>
                   <name>bluesky_cli</name>
                 </program>
               </programs>
