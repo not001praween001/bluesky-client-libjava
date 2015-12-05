@@ -1,5 +1,5 @@
 /**
- * The Bluesky_cli.class on the  package bluesky.client is a connector
+ * The Bluesky_cli.class is a connector
  * library of bluesky for java programmer.
  * 
  * Author: Praween AMONTAMAVUT (Hayakawa Laboratory)
