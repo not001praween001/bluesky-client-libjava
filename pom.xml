@@ -5,7 +5,7 @@
   <groupId>org.bluesky-cps</groupId>
   <artifactId>bluesky-client-libjava</artifactId>
 
-  <version>0.0.0</version>  
+  <version>0.0.0-SNAPSHOT</version>  
   
   <!--
   <version>0.0.0</version>
@@ -48,7 +48,6 @@
     <connection>scm:git:git@github.com:Bluesky-CPS/bluesky-client-libjava.git</connection>
     <developerConnection>scm:git:git@github.com:not001praween001/bluesky-client-libjava.git</developerConnection>
     <url>git@github.com:Bluesky-CPS/bluesky-client-libjava.git</url>
-    <tag>bluesky-client-libjava-0.0.0</tag>
   </scm>
 
   <properties>
