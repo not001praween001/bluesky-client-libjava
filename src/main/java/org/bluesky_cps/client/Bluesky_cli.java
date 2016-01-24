@@ -9,18 +9,18 @@
 
 package org.bluesky_cps.client;
 
-import org.apache.commons.lang3.*;
+//import org.apache.commons.lang3.*;
 //import com.ning.http.client.*;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.*;
+//import java.util.concurrent.Future;
+//import java.util.concurrent.TimeUnit;
+//import java.util.*;
 import java.io.*;
 //import com.google.gson.*;
 import org.json.*;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.*;
+//import org.apache.http.message.BasicNameValuePair;
+//import org.apache.http.NameValuePair;
+//import org.apache.http.message.BasicHeader;
+//import org.apache.http.*;
 
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -260,7 +260,6 @@ class BlueskyHandler{
     private String password;
     private int port = 8189;
 
-    //-----Group of communication socket variables-----
     private  Socket socket;
     private  BufferedReader reader;
     private  DataOutputStream writer;
@@ -391,14 +390,12 @@ class BlueskyHandler{
     private String fetchHttpReq(String httpMethod, String uriPath, String content){
         String ret = " ";
 	int contentLength = content.length();
-	//Boolean isPermitFetch = true;
 	Boolean isGet = httpMethod.equalsIgnoreCase("get");
 	Boolean isPost = httpMethod.equalsIgnoreCase("post");
 	Boolean isPermitFetch = (contentLength <= this.contentMax)?true:false;
 	if(isGet || isPost){
 	    String userAgent = "Bluesky-cli";
 	    String host = this.blueskyGateway + ":" + this.port;
-	    //int contentLength = 0;
 	    if(this.isEnable){
 		String reqMes = httpMethod + " " + uriPath + " HTTP/1.1" + this.NEWLINE;
 		isPermitFetch &= (reqMes.length() > this.uriCharMax)?false:true;
@@ -406,7 +403,6 @@ class BlueskyHandler{
 		    reqMes += "Host: " + this.blueskyGateway + ":" + this.port + this.NEWLINE;
 		    reqMes += "User-Agent: " + userAgent + this.NEWLINE;
 		    if(!(content.equals("") || content.equals(" ")) && isPost){
-			//contentLength = content.length();
 			reqMes += "Content-Length: " + contentLength + this.NEWLINE;
 			reqMes += this.NEWLINE;
 			reqMes += content;
