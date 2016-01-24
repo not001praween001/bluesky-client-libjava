@@ -272,6 +272,7 @@ class BlueskyHandler{
     public boolean isEnable = false;
     public static final String NEWLINE = "\r\n";
     public static final int uriCharMax = 2000;
+    public static final int contentMax = 1024;
 
     private String responseBody = " ";
     private String setupMethod = "get";
@@ -389,21 +390,23 @@ class BlueskyHandler{
 
     private String fetchHttpReq(String httpMethod, String uriPath, String content){
         String ret = " ";
-	Boolean isPermitFetch = true;
+	int contentLength = content.length();
+	//Boolean isPermitFetch = true;
 	Boolean isGet = httpMethod.equalsIgnoreCase("get");
 	Boolean isPost = httpMethod.equalsIgnoreCase("post");
+	Boolean isPermitFetch = (contentLength <= this.contentMax)?true:false;
 	if(isGet || isPost){
 	    String userAgent = "Bluesky-cli";
 	    String host = this.blueskyGateway + ":" + this.port;
-	    int contentLength = 0;
+	    //int contentLength = 0;
 	    if(this.isEnable){
 		String reqMes = httpMethod + " " + uriPath + " HTTP/1.1" + this.NEWLINE;
-		isPermitFetch = (reqMes.length() > this.uriCharMax)?false:true;
+		isPermitFetch &= (reqMes.length() > this.uriCharMax)?false:true;
 		if(isPermitFetch){
 		    reqMes += "Host: " + this.blueskyGateway + ":" + this.port + this.NEWLINE;
 		    reqMes += "User-Agent: " + userAgent + this.NEWLINE;
 		    if(!(content.equals("") || content.equals(" ")) && isPost){
-			contentLength = content.length();
+			//contentLength = content.length();
 			reqMes += "Content-Length: " + contentLength + this.NEWLINE;
 			reqMes += this.NEWLINE;
 			reqMes += content;
