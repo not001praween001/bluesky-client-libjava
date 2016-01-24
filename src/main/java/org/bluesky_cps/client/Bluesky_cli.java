@@ -271,6 +271,7 @@ class BlueskyHandler{
     private String methodLine = " ";
     public boolean isEnable = false;
     public static final String NEWLINE = "\r\n";
+    public static final int uriCharMax = 2000;
 
     private String responseBody = " ";
     private String setupMethod = "get";
@@ -388,6 +389,7 @@ class BlueskyHandler{
 
     private String fetchHttpReq(String httpMethod, String uriPath, String content){
         String ret = " ";
+	Boolean isPermitFetch = true;
 	Boolean isGet = httpMethod.equalsIgnoreCase("get");
 	Boolean isPost = httpMethod.equalsIgnoreCase("post");
 	if(isGet || isPost){
@@ -396,28 +398,33 @@ class BlueskyHandler{
 	    int contentLength = 0;
 	    if(this.isEnable){
 		String reqMes = httpMethod + " " + uriPath + " HTTP/1.1" + this.NEWLINE;
-		reqMes += "Host: " + this.blueskyGateway + ":" + this.port + this.NEWLINE;
-		reqMes += "User-Agent: " + userAgent + this.NEWLINE;
-		if(!(content.equals("") || content.equals(" ")) && isPost){
-		    contentLength = content.length();
-		    reqMes += "Content-Length: " + contentLength + this.NEWLINE;
-		    reqMes += this.NEWLINE;
-		    reqMes += content;
+		isPermitFetch = (reqMes.length() > this.uriCharMax)?false:true;
+		if(isPermitFetch){
+		    reqMes += "Host: " + this.blueskyGateway + ":" + this.port + this.NEWLINE;
+		    reqMes += "User-Agent: " + userAgent + this.NEWLINE;
+		    if(!(content.equals("") || content.equals(" ")) && isPost){
+			contentLength = content.length();
+			reqMes += "Content-Length: " + contentLength + this.NEWLINE;
+			reqMes += this.NEWLINE;
+			reqMes += content;
+		    }else{
+			reqMes += this.NEWLINE;
+		    }
+
+		    try {
+			this.writer.writeBytes(reqMes);
+			this.writer.flush();
+			String readed = this.readHeader();
+			readed = this.readContent();
+			ret = readed;
+
+		    } catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			ret = " ";
+		    }
 		}else{
-		    reqMes += this.NEWLINE;
-		}
-
-		try {
-		    this.writer.writeBytes(reqMes);
-		    this.writer.flush();
-		    String readed = this.readHeader();
-		    readed = this.readContent();
-		    ret = readed;
-
-		} catch (IOException e) {
-		    // TODO Auto-generated catch block
-		    e.printStackTrace();
-		    ret = " ";
+		    ret = "{\"err\":\"Cannot fetching your instruction.\"}";
 		}
 	    }
 	}
