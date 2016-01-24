@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>org.bluesky-cps</groupId>
   <artifactId>bluesky-client-libjava</artifactId>
-  <version>0.0-SNAPSHOT</version>
+
+  <version>0.0</version>  
+  
+  <!--
+  <version>0.0.0</version>
+  -->
   <packaging>jar</packaging>
 
   <distributionManagement>
@@ -44,6 +48,7 @@
     <connection>scm:git:git@github.com:Bluesky-CPS/bluesky-client-libjava.git</connection>
     <developerConnection>scm:git:git@github.com:not001praween001/bluesky-client-libjava.git</developerConnection>
     <url>git@github.com:Bluesky-CPS/bluesky-client-libjava.git</url>
+    <tag>bluesky-client-libjava-0.0</tag>
   </scm>
 
   <properties>
@@ -87,6 +92,9 @@
 	<configuration>
 	  <serverId>ossrh</serverId>
 	  <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+	  <!--
+	  <autoReleaseAfterClose>true</autoReleaseAfterClose>
+	  -->
 	  <autoReleaseAfterClose>true</autoReleaseAfterClose>
 	</configuration>
       </plugin>
@@ -236,16 +244,21 @@
         <artifactId>commons-lang3</artifactId>
         <version>3.1</version>
     </dependency>
+<!--
     <dependency>
       <groupId>com.ning</groupId>
       <artifactId>async-http-client</artifactId>
       <version>1.9.31</version>
     </dependency>
+-->
+<!--
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty</artifactId>
       <version>4.0.0.Alpha8</version>
     </dependency>
+-->
+<!--
     <dependency>
       <groupId> org.apache.cassandra</groupId>
       <artifactId>cassandra-all</artifactId>
@@ -254,13 +267,8 @@
       <exclusions>
 	<exclusion> 
 	  <groupId>org.slf4j</groupId>
-	  <!--<artifactId>slf4j-log4j12</artifactId>-->
 	  <artifactId>slf4j-jdk13</artifactId>
 	</exclusion>
-	<!--<exclusion> 
-	  <groupId>org.slf4j</groupId>
-	  <artifactId>slf4j-jdk14</artifactId>
-	</exclusion>-->
 	<exclusion> 
 	  <groupId>log4j</groupId>
 	  <artifactId>log4j</artifactId>
@@ -268,35 +276,29 @@
 	<exclusion>
 	  <groupId>org.slf4j</groupId>
 	  <artifactId>slf4j-parent</artifactId>
-	 <!-- <version>1.7.13</version>--> 
 	</exclusion>
       </exclusions> 
     </dependency>
-    
+-->
+<!--
     <dependency>
       <groupId>com.google.code.gson</groupId>
       <artifactId>gson</artifactId>
       <version>2.3.1</version>
     </dependency>
-    
+-->    
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>20151123</version>
     </dependency>
 
-
-    <!--
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-parent</artifactId>
-      <version>1.7.13</version>
-    </dependency>
-    -->
+<!--
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-log4j12</artifactId>
       <version>1.6.4</version>
     </dependency>
+-->
   </dependencies>
 </project>
