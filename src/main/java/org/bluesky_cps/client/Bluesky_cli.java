@@ -29,11 +29,15 @@ public class Bluesky_cli{
     private String blueskyGateway;
     private String username;
     private String password;
+    private String[][] resHeader;
+    private BlueskyHandler bh;
 
     public Bluesky_cli(String blueskyGateway, String username, String password){
 	this.blueskyGateway = blueskyGateway.trim().replace("http://", "");
 	this.username = username;
 	this.password = password;
+	this.resHeader = null;
+	this.bh = null;
     }
 
     private void test(){
@@ -58,6 +62,9 @@ public class Bluesky_cli{
 
 	//Test list_ed.
 	System.out.println(this.list_ed());
+
+	//Test search header.
+	System.out.println("\r\nserver: " + this.getResponseHeaderOf("server"));
 	System.out.println("\r\n");
 
 	//Test getSensorDatByAdc
@@ -149,15 +156,43 @@ public class Bluesky_cli{
 	    Response r = f.get();
 	    data = r.getResponseBody();*/
 
-	    BlueskyHandler bh = new BlueskyHandler(this.blueskyGateway, this.username, this.password);
-	    bh.setup("get", blueskyParam);
-	    bh.fetch();
-	    data = bh.getResponseBody();
-
+	    this.bh = new BlueskyHandler(this.blueskyGateway, this.username, this.password);
+	    this.bh.setup("get", blueskyParam);
+	    this.bh.fetch();
+	    data = this.bh.getResponseBody();
+	    this.resHeader = this.bh.getResponseHeader();
 	}catch(Exception e){
 	    System.out.println(e);
 	}	
 	return data;
+    }
+
+    /**
+     * get response header by key.
+     * @return the header field value.
+     */
+    public String getResponseHeaderOf(String key){
+	String ret = " ";
+	if(this.bh != null){
+	    if(this.resHeader != null){
+		ret = this.bh.searchValueOfHeader(this.resHeader, key);
+	    }
+	}
+	return ret;
+    }
+
+     /**
+     * get response header by key from handler.
+     * @return the header field value.
+     */
+    public String getResponseHeaderOf(String key, BlueskyHandler bh){
+	String ret = " ";
+	if(bh != null){
+	    if(this.resHeader != null){
+		ret = bh.searchValueOfHeader(this.resHeader, key);
+	    }
+	}
+	return ret;
     }
 
     /**
@@ -178,6 +213,7 @@ public class Bluesky_cli{
 		bh.setup("post", "/doLogin.ins", param);
 		bh.fetch();
 		String result = bh.getResponseBody();
+		//System.out.println(result);
 
 		JSONObject jsonObj = new JSONObject(result);
 		String isSuccess = jsonObj.getJSONObject("ETLog").getJSONObject("login").getString("result");
@@ -309,6 +345,17 @@ class BlueskyHandler{
             ret = this.fetchHttpReq("GET", "/ETLog?instruction=ls&opt1=noneFix&opt2=edconnected", " ");
         }
         return ret;
+    }
+
+    public String[][] getResponseHeader(){
+	if(this.readHeader != null){
+	    return this.readHeader; 
+	}else{
+	    this.readHeader = new String[1][2];
+	    this.readHeader[0][0] = " ";
+	    this.readHeader[0][1] = " ";
+	    return this.readHeader;
+	}
     }
 
     public boolean connectBluesky(){
@@ -450,6 +497,7 @@ class BlueskyHandler{
             ret = " ";
         }
         String h[][] = this.headerAnalysis(ret);
+	this.readHeader = h;
         return ret;
     }
     private String readContent(){
@@ -515,12 +563,16 @@ class BlueskyHandler{
     }
     public String searchValueOfHeader(String[][] header, String key){
         String value = " ";
-        for(int i = 0; i < header.length; i++){
-            if(header[i][0].equalsIgnoreCase(key)){
-                value = header[i][1];
-                break;
-            }
-        }
+	if(header != null){
+	    for(int i = 0; i < header.length; i++){
+		if(header[i][0] != null){
+		    if(header[i][0].equalsIgnoreCase(key)){
+			value = header[i][1];
+			break;
+		    }
+		}
+	    }
+	}
         return value;
     }
 }
