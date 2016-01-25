@@ -557,8 +557,8 @@ class BlueskyHandler{
                 break;
             }
         }
-        ret[0] = headerFieldName.equals("")?" ":headerFieldName.replace("\r", "").replace("\n", "");
-        ret[1] = headerFieldData.equals("")?" ":headerFieldData.replace("\r", "").replace("\n", "");
+        ret[0] = headerFieldName.equals("")?" ":headerFieldName.replace("\r", "").replace("\n", "").trim();
+        ret[1] = headerFieldData.equals("")?" ":headerFieldData.replace("\r", "").replace("\n", "").trim();
         return ret;
     }
     public String searchValueOfHeader(String[][] header, String key){
