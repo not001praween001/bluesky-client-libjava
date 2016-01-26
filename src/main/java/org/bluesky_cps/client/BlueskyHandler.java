@@ -1,27 +1,15 @@
 /**
- * The Bluesky_cli.class is a connector
- * library of bluesky for java programmer.
+ * The BlueskyHandler.class is a handler of the connector.
+ * The handler is a tiny and lightweight HTTP client.
  * 
  * Author: Praween AMONTAMAVUT (Hayakawa Laboratory)
  * E-mail: praween@hykwlab.org
- * Create date: 2015-12-02
  */
 
 package org.bluesky_cps.client;
 
-//import org.apache.commons.lang3.*;
-//import com.ning.http.client.*;
-//import java.util.concurrent.Future;
-//import java.util.concurrent.TimeUnit;
-//import java.util.*;
 import java.io.*;
-//import com.google.gson.*;
 import org.json.*;
-//import org.apache.http.message.BasicNameValuePair;
-//import org.apache.http.NameValuePair;
-//import org.apache.http.message.BasicHeader;
-//import org.apache.http.*;
-
 import java.net.Socket;
 import java.net.UnknownHostException;
 
@@ -83,6 +71,10 @@ public class BlueskyHandler{
         return ret;
     }
 
+    /**
+     * Get http response headers.
+     * @return the response headers two-dimension array of String.
+     */
     public String[][] getResponseHeader(){
 	if(this.readHeader != null){
 	    return this.readHeader; 
@@ -94,8 +86,11 @@ public class BlueskyHandler{
 	}
     }
 
+    /**
+     * Get the connection of bluesky server.
+     * @return the connecting result.
+     */
     public boolean connectBluesky(){
-
         try {
             this.socket = new Socket(this.blueskyGateway, this.port);
             this.socket.setReuseAddress(true);
@@ -123,9 +118,16 @@ public class BlueskyHandler{
         return this.isEnable;
     }
 
+    /**
+     * Setup fetching handler detail.
+     */
     public void setup(String method, String param){
 	this.setup(method, param, " ");
     }
+
+    /**
+     * Setup fetching handler detail with the pushing content's data.
+     */
     public void setup(String method, String param, String content){
 	this.clearConnection();
 	this.setupMethod = method;
@@ -134,6 +136,9 @@ public class BlueskyHandler{
 	this.isEnable = this.connectBluesky();
     }
 
+    /**
+     * Close and clear all connections.
+     */
     private void clearConnection(){
 	try{
 	    if(this.reader != null)
@@ -162,14 +167,28 @@ public class BlueskyHandler{
 	}
     }
 
+    /**
+     * Fecting the handling instruction from external class.
+     */
     public void fetch(){
 	this.responseBody = this.fetchHttpReq(this.setupMethod, this.setupParam, this.setupContent);
     }
 
+    /**
+     * Get the reponse content's body of bluesky.
+     * @return response content body data.
+     */
     public String getResponseBody(){
 	return this.responseBody;
     }
 
+    /**
+     * Fecting the handling instruction from internal class.
+     * @param httpMethod the HTTP method. (Here provide only 'GET' and 'POST')
+     * @param uriPath the uri path data field.
+     * @param content the pushing content data. please keep this parameter blank when the httpMethod is 'GET'.
+     * @return HTTP response content's body.
+     */
     private String fetchHttpReq(String httpMethod, String uriPath, String content){
         String ret = " ";
 	int contentLength = content.length();
@@ -213,6 +232,11 @@ public class BlueskyHandler{
 	this.clearConnection();
         return ret;
     }
+
+    /**
+     * Read HTTP response headers.
+     * @return HTTP response headers String data.
+     */
     private String readHeader(){
         String ret = "";
         if(this.isEnable){
@@ -236,6 +260,11 @@ public class BlueskyHandler{
 	this.readHeader = h;
         return ret;
     }
+
+    /**
+     * Read HTTP response content's body.
+     * @return response content's body.
+     */
     private String readContent(){
         String ret = "";
         if(this.isEnable){
@@ -287,6 +316,11 @@ public class BlueskyHandler{
         }
         return ret.trim();
     }
+
+    /**
+     * Read UTF String data. (Do not use now)
+     * @return UTF encoded String data.
+     */
     private String readUTF(){
 	String ret = "";
 	String val = "";
@@ -297,9 +331,15 @@ public class BlueskyHandler{
 	} catch (Exception e) {
 	    e.printStackTrace();
 	}
-	//System.out.println(ret);
 	return ret;
     }
+
+    /**
+     * Read data with specified offset. (Do not use now)
+     * @param reader2
+     * @param offset
+     * @return String data.
+     */
     private String readOffset(DataInputStream reader2, int offset){
 	String ret = "";
 	//System.out.println("readOffset: ");
@@ -326,6 +366,12 @@ public class BlueskyHandler{
 	
 	return ret;
     }
+
+    /**
+     * Read data one line. (Do not use now.)
+     * @param reader2
+     * @return one line String data
+     */
     private String readLine(DataInputStream reader2){
 	String ret = "";
 	
@@ -342,19 +388,21 @@ public class BlueskyHandler{
 		    // TODO Auto-generated catch block
 		    e.printStackTrace();
 		    this.clearConnection();
-		    //System.out.println("readLine readed byte: " + ret);
 		    break;
 		} catch (IOException e) {
 		    // TODO Auto-generated catch block
 		    e.printStackTrace();
-		    //System.out.println("readLine readed byte: " + ret);
 		    break;
 		} 
-		
 	    }
-
 	return ret;
     }
+
+    /**
+     * Analysis the headers and method data.
+     * @param header HTTP header String.
+     * @return analyzed header data as two-dimensional array of String.
+     */
     private String[][] headerAnalysis(String header){
         header = header.replace("\r", "");
         String[] sptHeader = header.split("\n");
@@ -371,6 +419,12 @@ public class BlueskyHandler{
         this.readHeader = ret;
         return ret;
     }
+
+    /**
+     * Convert a HTTP header field String to array of String of header field.
+     * @param headerField a String of header field.
+     * @return array of String of HTTP header field.
+     */
     private String[] getHeaderField(String headerField){
         String headerFieldName = "";
         String headerFieldData = "";
@@ -395,6 +449,13 @@ public class BlueskyHandler{
         ret[1] = headerFieldData.equals("")?" ":headerFieldData.replace("\r", "").replace("\n", "").trim();
         return ret;
     }
+
+    /**
+     * Searching the value of HTTP header.
+     * @param header
+     * @param key
+     * @return value of HTTP header.
+     */
     public String searchValueOfHeader(String[][] header, String key){
         String value = " ";
 	if(header != null){
