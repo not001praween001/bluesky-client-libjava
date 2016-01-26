@@ -168,7 +168,7 @@ public class BlueskyHandler{
     }
 
     /**
-     * Fecting the handling instruction from external class.
+     * Fetching the handling instruction from external class.
      */
     public void fetch(){
 	this.responseBody = this.fetchHttpReq(this.setupMethod, this.setupParam, this.setupContent);
@@ -183,7 +183,7 @@ public class BlueskyHandler{
     }
 
     /**
-     * Fecting the handling instruction from internal class.
+     * Fetching the handling instruction from internal class.
      * @param httpMethod the HTTP method. (Here provide only 'GET' and 'POST')
      * @param uriPath the uri path data field.
      * @param content the pushing content data. please keep this parameter blank when the httpMethod is 'GET'.
