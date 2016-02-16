@@ -412,7 +412,7 @@ public class BlueskyHandler{
         this.methodLine = sptHeader[0];
         // HTTP header field.
         if(len > 1){
-            for(int i = 1; i < len - 1; i++){
+	    for(int i = 1; i < len; i++){
                 ret[i - 1] = this.getHeaderField(sptHeader[i].trim());
             }
         }
